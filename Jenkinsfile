@@ -1,16 +1,20 @@
-ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/") {
-   withEnv(["GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"]) {
-   }
-}
-stage('Pre Test'){
-    echo 'Pulling Dependencies'
-
-    sh 'go version'
-    sh 'cd $GOPATH/github.com/terasurfer/jenkins-cmpe-272 && go mod download'
-}
-
-stage('Test'){
-     echo 'Testing'
-
-     sh """cd $GOPATH && go test"""
+pipeline {
+    agent {
+        docker {
+            image 'golang:1.13.4-alpine'
+            args '-p 3030:3030'
+        }
+    }
+    stages { 
+        stage('Build') {
+            steps {
+                sh 'go mod download'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'go test'
+            }
+        }
+    }
 }
