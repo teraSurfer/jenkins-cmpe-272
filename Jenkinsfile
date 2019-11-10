@@ -5,16 +5,20 @@ pipeline {
             args '-p 3030:3030'
         }
     }
-    stages { 
-        stage('Build') {
-            steps {
-                sh 'go mod download'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'go test'
-            }
-        }
+
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'go mod download'
+      }
     }
+
+    stage('Test') {
+      steps {
+        sh 'go test'
+      }
+    }
+
+  }
 }
