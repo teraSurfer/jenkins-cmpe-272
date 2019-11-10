@@ -8,6 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        sh 'apk add libc-dev'
         sh 'go mod download'
       }
     }
